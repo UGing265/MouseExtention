@@ -10,14 +10,16 @@ document.getElementById("detectBtn").addEventListener("click", async () => {
       func: async () => {
         await new Promise((r) => setTimeout(r, 1000));
         const questionBlocks = [];
-        const questionPattern = /^(\d+\.\s*)?.{3,150}\?$/;
+        const questionPattern = /^(\d+\.\s*)?.{3,150}(\?|:|,)?$/;
+        const questionKeywords =
+  /\b(who|what|when|where|why|how|which|choose|select|complete|fill|pick|identify|guess|name|are|is|do|does|did|can|could|should|would|will|has|have|had|may|might|must)\b/i;
         const possibleBlocks = document.querySelectorAll("div, section, article");
 
         possibleBlocks.forEach((container) => {
           const text = container.innerText?.trim();
           if (!text) return;
           const firstLine = text.split("\n")[0].trim();
-          if (questionPattern.test(firstLine)) {
+          if (questionPattern.test(firstLine) && questionKeywords.test(firstLine)) {
             const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
             const question = firstLine.replace(/^(\d+\.\s*)/, "").trim();
             const choices = [];
@@ -51,13 +53,13 @@ document.getElementById("detectBtn").addEventListener("click", async () => {
     // --- Step 2: Call AI handler ---
     for (const q of questions) {
       const result = await window.askAI(q);
-      console.log("──────────────────────────────");
+      console.log("--------------------------------");
       console.log(JSON.stringify(result, null, 2));
     }
 
-    alert(`✅ AI finished answering ${questions.length} question(s). Check console.`);
+    alert(` AI finished answering ${questions.length} question(s). Check console.`);
   } catch (err) {
     console.error("[Popup] Error:", err);
-    alert("❌ Error: " + err.message);
+    alert(" Error: " + err.message);
   }
 });
