@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Question Detector",
+  "version": "1.0",
+  "description": "Detect if a page has questions.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "mouse.png"
+  }
+}
