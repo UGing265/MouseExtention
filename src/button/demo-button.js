@@ -73,7 +73,7 @@ document.getElementById("detectBtn").addEventListener("click", async () => {
     }
 
     // --- Step 4: Mở tab kết quả ---
-    chrome.tabs.create({ url: chrome.runtime.getURL("./output/result.html") });
+    chrome.tabs.create({ url: chrome.runtime.getURL("./src/output/result.html") });
   } catch (err) {
     console.error("[Popup] Error:", err);
     alert(" Error: " + err.message);

@@ -1,19 +1,27 @@
 {
   "manifest_version": 3,
-  "name": "AI Question Detector",
+  "name": "Mouse Quiz",
   "version": "1.1",
-  "description": "Detect questions and ask AI for the answer.",
+  "description": "Mouse Detect questions and ask AI for the answer.",
   "permissions": [
     "activeTab",
     "scripting",
     "storage",            
     "tabs"
-  ],
+  ], 
+
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "src/main.html",
     "default_icon": "mouse.png"
   },
+
    "host_permissions": [
     "<all_urls>"
-  ]
+  ],
+
+  "icons": {
+    "16": "mouse.png",
+    "48": "mouse.png",
+    "128": "mouse.png"
+  }
 }
