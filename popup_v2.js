@@ -12,7 +12,7 @@ document.getElementById("detectBtn").addEventListener("click", async () => {
         const questionBlocks = [];
         const questionPattern = /^(\d+\.\s*)?.{3,150}(\?|:|,)?$/;
         const questionKeywords =
-  /\b(who|what|when|where|why|how|which|choose|select|complete|fill|pick|identify|guess|name|are|is|do|does|did|can|could|should|would|will|has|have|had|may|might|must)\b/i;
+          /\b(who|what|when|where|why|how|which|choose|select|complete|fill|pick|identify|guess|name|are|is|do|does|did|can|could|should|would|will|has|have|had|may|might|must)\b/i;
         const possibleBlocks = document.querySelectorAll("div, section, article");
 
         possibleBlocks.forEach((container) => {
@@ -50,14 +50,30 @@ document.getElementById("detectBtn").addEventListener("click", async () => {
 
     console.log(`[Popup] Found ${questions.length} question(s). Asking AI...`);
 
-    // --- Step 2: Call AI handler ---
+    // ✅ FIXED: khai báo mảng chứa kết quả
+    const results = [];
+
+    // --- Step 2: Gọi AI handler ---
     for (const q of questions) {
       const result = await window.askAI(q);
+      results.push({ ...q, answer: result });
       console.log("--------------------------------");
       console.log(JSON.stringify(result, null, 2));
     }
 
-    alert(` AI finished answering ${questions.length} question(s). Check console.`);
+    alert(`AI finished answering ${questions.length} question(s). Check console.`);
+
+    // --- Step 3: Lưu kết quả ---
+    if (chrome?.storage?.local) {
+      await chrome.storage.local.set({ aiResults: results });
+      console.log("[Popup] Stored results in chrome.storage");
+    } else {
+      console.warn("[Popup] chrome.storage.local not available — using localStorage fallback");
+      localStorage.setItem("aiResults", JSON.stringify(results));
+    }
+
+    // --- Step 4: Mở tab kết quả ---
+    chrome.tabs.create({ url: chrome.runtime.getURL("./output/result.html") });
   } catch (err) {
     console.error("[Popup] Error:", err);
     alert(" Error: " + err.message);

@@ -3,9 +3,17 @@
   "name": "AI Question Detector",
   "version": "1.1",
   "description": "Detect questions and ask AI for the answer.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",            
+    "tabs"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "mouse.png"
-  }
+  },
+   "host_permissions": [
+    "<all_urls>"
+  ]
 }
