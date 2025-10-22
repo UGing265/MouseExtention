@@ -19,9 +19,29 @@
     "<all_urls>"
   ],
 
+    "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+
   "icons": {
     "16": "mouse.png",
     "48": "mouse.png",
     "128": "mouse.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/button/auto-any.js"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "commands": {
+    "toggle-auto-any": {
+      "suggested_key": { "default": "Alt+Shift+Q" },
+      "description": "Toggle Auto ANY page on/off"
+    }
   }
 }
